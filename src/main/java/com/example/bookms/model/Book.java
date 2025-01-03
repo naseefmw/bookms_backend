@@ -13,8 +13,8 @@ public class Book {
 
     private String title;
     private String author;
-    private Date pub_date;
-    private long isbn;
+    private String pub_date;
+    private String isbn;
     private String genre;
     private int rating;
 
