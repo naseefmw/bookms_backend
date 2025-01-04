@@ -2,6 +2,7 @@ package com.example.bookms.controller;
 
 import com.example.bookms.model.Book;
 import com.example.bookms.service.BookService;
+import com.example.bookms.service.SequenceGeneratorService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -19,6 +20,10 @@ public class BookController {
     @Autowired
     BookService bookService;
 
+    @Autowired
+    SequenceGeneratorService sequenceGeneratorService;
+
+
     @QueryMapping
     public Book bookById(@Argument String id) {
         log.info(" Querying book in GraphQL Server by id {}", id);
@@ -30,7 +35,7 @@ public class BookController {
     public Book addBook(@Argument String title, @Argument String author, @Argument String pub_date, @Argument String isbn, @Argument int rating) {
 
         Book book = new Book();
-        book.setId(UUID.randomUUID().toString());
+        book.setId("B-" + sequenceGeneratorService.generateSequence(Book.SEQUENCE_NAME));
         book.setTitle(title);
         book.setAuthor(author);
         book.setPub_date(pub_date);
