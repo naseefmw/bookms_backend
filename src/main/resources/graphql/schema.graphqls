@@ -1,6 +1,3 @@
-type Query {
-    bookById(id: ID): Book
-}
 
 type Book {
     id: ID
@@ -9,6 +6,11 @@ type Book {
     pub_date: String
     isbn: String
     rating: Int
+}
+
+type Query {
+    bookById(id: ID): Book
+    findAllBooks: [Book]
 }
 
 type Mutation {

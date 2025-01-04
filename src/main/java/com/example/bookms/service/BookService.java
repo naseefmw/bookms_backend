@@ -24,27 +24,18 @@ public class BookService {
 
         Optional<Book> optionalBook = bookRepository.findById(id);
 
-        if (optionalBook == null || optionalBook.get() == null) {
+        if (optionalBook.isPresent()) {
+            Book book = optionalBook.get();
+            log.info("found {} book by id {}", book.getTitle(), id);
+            return book;
+        } else {
             log.info("No book found by id {}", id);
             return null;
         }
-
-        Book book = optionalBook.get();
-        log.info("found {} books by id {}", book.getTitle(), id);
-        return book;
     }
 
-    public List<Book> getBookByTitle(String title) {
-        log.info("Getting Book {} from the repository.", title);
-
-        List<Book> bookList = bookRepository.findByTitle(title);
-
-        if (CollectionUtils.isEmpty(bookList)) {
-            log.info("No book found by title {}", title);
-            return new ArrayList<Book>();
-        }
-        log.info("found {} books by title {}", bookList.size(), title);
-        return bookList;
+    public List<Book> findAllBooks() {
+        return bookRepository.findAll();
     }
 
     public Book addBook(Book book) {

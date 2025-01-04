@@ -11,6 +11,7 @@ import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -27,8 +28,12 @@ public class BookController {
     @QueryMapping
     public Book bookById(@Argument String id) {
         log.info(" Querying book in GraphQL Server by id {}", id);
-        Book book = bookService.getBookById(id);
-        return book;
+        return bookService.getBookById(id);
+    }
+
+    @QueryMapping
+    public List<Book> findAllBooks() {
+        return bookService.findAllBooks();
     }
 
     @MutationMapping
@@ -43,7 +48,6 @@ public class BookController {
         book.setRating(rating);
 
         bookService.addBook(book);
-
         return book;
     }
 
