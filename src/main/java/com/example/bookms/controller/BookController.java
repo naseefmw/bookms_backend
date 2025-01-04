@@ -47,8 +47,7 @@ public class BookController {
         book.setIsbn(isbn);
         book.setRating(rating);
 
-        bookService.addBook(book);
-        return book;
+        return bookService.addBook(book);
     }
 
 
