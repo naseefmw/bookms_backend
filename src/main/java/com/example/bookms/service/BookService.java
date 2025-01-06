@@ -43,4 +43,21 @@ public class BookService {
         log.info("Added book {} successfully", book2.getTitle());
         return book2;
     }
+
+    public Book deleteBook(String id) {
+        log.info("Finding book {} from the repository.", id);
+
+        Optional<Book> optionalBook = bookRepository.findById(id);
+
+        if (optionalBook.isPresent()) {
+            Book book = optionalBook.get();
+            log.info("deleting {} book by id {}", book.getTitle(), id);
+            bookRepository.deleteById(id);
+            return book;
+        } else {
+            log.info("No book found by id {}", id);
+            return null;
+        }
+    }
+
 }

@@ -1,9 +1,6 @@
 package com.example.bookms.model;
 
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalDate;
@@ -13,23 +10,26 @@ import java.time.LocalDate;
 public class BookInput {
 
     @NotNull
-    @Size(min=1, max=6)
+    @Size(min = 1,max=100, message = "Title length must be less than 100")
     private String title;
 
     @NotNull
-    @Size(max = 50, message = "Author is too long!")
+    @Size(min = 1, max = 50, message = "Author length must be less than 50")
     private String author;
 
+    @NotNull
     private LocalDate pub_date;
 
-    @Size(max=13)
+    @NotNull
+    @Pattern(regexp = "^\\d{13}$", message = "Must be 13 digit number")
     private String isbn;
 
     private String genre;
     private String image;
 
-    @Max(5)
+    @NotNull
     @Min(1)
+    @Max(5)
     private int rating;
 
 }

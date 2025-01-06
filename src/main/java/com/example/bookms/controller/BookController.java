@@ -65,11 +65,10 @@ public class BookController {
         return bookService.addToBooks(book);
     }
 
-    @GraphQlExceptionHandler
-    public GraphQLError handle(BindException ex) {
-        return GraphQLError.newError().errorType(ErrorType.BAD_REQUEST).message("...").build();
+    @MutationMapping
+    public Book deleteBook(@Argument String id) {
+        log.info(" Deleting book in GraphQL Server by id {}", id);
+        return bookService.deleteBook(id);
     }
-
-
 
 }
