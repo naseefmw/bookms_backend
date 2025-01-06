@@ -2,9 +2,11 @@ package com.example.bookms.service;
 
 import com.example.bookms.model.Book;
 import com.example.bookms.repository.BookRepository;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -35,7 +37,7 @@ public class BookService {
         return bookRepository.findAll();
     }
 
-    public Book addBook(Book book) {
+    public Book addToBooks(@Valid Book book) {
         log.info("Adding book {} to database", book.getTitle());
         Book book2 = bookRepository.insert(book);
         log.info("Added book {} successfully", book2.getTitle());

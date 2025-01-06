@@ -1,21 +1,33 @@
 package com.example.bookms.controller;
 
 import com.example.bookms.model.Book;
+import com.example.bookms.model.BookInput;
 import com.example.bookms.service.BookService;
 import com.example.bookms.service.SequenceGeneratorService;
+import graphql.GraphQLError;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.GraphQlExceptionHandler;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
-import org.springframework.graphql.data.method.annotation.SchemaMapping;
+import org.springframework.graphql.execution.ErrorType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
-@RestController
 @Slf4j
+@Controller
+@Component
 public class BookController {
 
     @Autowired
@@ -37,18 +49,27 @@ public class BookController {
     }
 
     @MutationMapping
-    public Book addBook(@Argument String title, @Argument String author, @Argument String pub_date, @Argument String isbn, @Argument int rating) {
+    public Book addBook(@Argument @Valid BookInput bookInput) {
 
         Book book = new Book();
         book.setId("B-" + sequenceGeneratorService.generateSequence(Book.SEQUENCE_NAME));
-        book.setTitle(title);
-        book.setAuthor(author);
-        book.setPub_date(pub_date);
-        book.setIsbn(isbn);
-        book.setRating(rating);
+        book.setTitle(bookInput.getTitle());
+        book.setAuthor(bookInput.getAuthor());
+        book.setPub_date(bookInput.getPub_date());
+        book.setIsbn(bookInput.getIsbn());
+        book.setRating(bookInput.getRating());
+        book.setGenre(bookInput.getGenre());
+        book.setImage(bookInput.getImage());
 
-        return bookService.addBook(book);
+        log.info("Book Adding");
+        return bookService.addToBooks(book);
     }
+
+    @GraphQlExceptionHandler
+    public GraphQLError handle(BindException ex) {
+        return GraphQLError.newError().errorType(ErrorType.BAD_REQUEST).message("...").build();
+    }
+
 
 
 }

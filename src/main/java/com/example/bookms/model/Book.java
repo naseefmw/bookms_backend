@@ -6,7 +6,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -21,9 +21,10 @@ public class Book {
 
     private String title;
     private String author;
-    private String pub_date;
+    private LocalDate pub_date;
     private String isbn;
     private String genre;
+    private String image;
     private int rating;
 
 }
