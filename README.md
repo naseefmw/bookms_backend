@@ -21,6 +21,9 @@ spring.graphql.cors.allow-credentials=true
 ```#!/bin/bash
 mvn spring-boot:run
 ```
+## Deploy on Render
+* To deploy a spring boot project on Render you need a Dockerfile.
+* Then deploy as a web service
 
 ## API 
 * Find list of Books
